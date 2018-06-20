@@ -1,0 +1,55 @@
+{
+    "name": "react-drag-abstract",
+    "version": "0.0.1",
+    "author": "yanxianliang",
+    "description": "A abstract component class for react which can drag and resize",
+    "license": "MIT",
+    "engines": {
+        "node": ">=6"
+    },
+    "dependencies": {
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:yanxlg/react-drag-abstract.git"
+    },
+    "scripts": {
+        "watch-tsc": "rc-tools run watch-tsc",
+        "build": "rc-tools run build",
+        "dist": "rc-tools run dist",
+        "gh-pages": "rc-tools run gh-pages",
+        "start": "rc-tools run server",
+        "compile": "rc-tools run compile --babel-runtime",
+        "pub": "rc-tools run pub --babel-runtime",
+        "lint": "rc-tools run lint --no-js-lint",
+        "karma": "rc-test run karma",
+        "saucelabs": "rc-test run saucelabs",
+        "test": "rc-test run test",
+        "chrome-test": "rc-test run chrome-test",
+        "coverage": "rc-test run coverage",
+        "prepublish": "rc-tools run guard"
+    },
+    "files": [
+        "lib",
+        "es",
+        "dist"
+    ],
+    "config": {
+        "port": 8000
+    },
+    "main": "./lib/DragAbstractComponent",
+    "module": "./es/DragAbstractComponent",
+    "devDependencies": {
+        "@types/node": "^10.3.2",
+        "@types/react": "^16.3.17",
+        "@types/react-dom": "^16.0.6",
+        "async": "^0.9.0",
+        "babel-runtime": "6.x",
+        "bluebird": "~2.9.30",
+        "core-js": "^2.5.1",
+        "rc-tools": "^8.0.1",
+        "react": "^16.4.0",
+        "react-dom": "^16.4.0",
+        "typescript": "^2.9.1"
+    }
+}
