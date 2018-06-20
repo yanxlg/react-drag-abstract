@@ -1,6 +1,6 @@
 {
     "name": "react-drag-abstract",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "yanxianliang",
     "description": "A abstract component class for react which can drag and resize",
     "license": "MIT",

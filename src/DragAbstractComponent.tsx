@@ -7,7 +7,7 @@ import * as React from "react";
 
 declare const window:any;
 
-declare interface IDragAbsoluteComponentProps{
+export declare interface IDragAbsoluteComponentProps{
     onDragStart?:(startPoint:any,element?:HTMLElement)=>void;
     onDragMove?:(delPosition:any,element?:HTMLElement)=>void;
     onDragEnd?:(delPosition:any,element?:HTMLElement)=>void;
