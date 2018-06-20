@@ -12,6 +12,7 @@ export declare interface IDragAbsoluteComponentProps{
     onDragMove?:(delPosition:any,element?:HTMLElement)=>void;
     onDragEnd?:(delPosition:any,element?:HTMLElement)=>void;
     onResize?:(delPosition:any,element?:HTMLElement)=>void;
+    resizeClassName?:string;//rezise元素拥有的样式，仅支持单节点，不支持复合节点
 }
 
 class DragAbstractComponent<T extends IDragAbsoluteComponentProps,M={}> extends React.Component<T,M>{
@@ -19,18 +20,22 @@ class DragAbstractComponent<T extends IDragAbsoluteComponentProps,M={}> extends 
     private _beforePoint:any;
     public element:HTMLDivElement;
     private resize:boolean=false;
+    private resizeClassName:string|undefined;
+    constructor(props:T){
+        super(props);
+        this.resizeClassName=props.resizeClassName;
+    }
     private dragStartListener=(e:any)=>{
         const target =e.target||window.event.srcElement;
         this._beforePoint={
             x:e.clientX,
             y:e.clientY
         };
-        if(/drag-resize/.test(target.className)){
+        if(this.resizeClassName&&new RegExp(this.resizeClassName).test(target.className)){
             //resize
             this.resize=true;
             this.drag=false;
             //resizeStart
-            
         }else{
             this.drag=true;
             this.resize=false;
