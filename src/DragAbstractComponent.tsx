@@ -11,7 +11,7 @@ export declare interface IDragAbsoluteComponentProps{
     onDragStart?:(startPoint:any,element?:HTMLElement)=>void;
     onDragMove?:(delPosition:any,element?:HTMLElement)=>void;
     onDragEnd?:(delPosition:any,element?:HTMLElement)=>void;
-    onResize?:(delPosition:any,element?:HTMLElement,e?:Event)=>void;
+    onResize?:(delPosition:any,element?:HTMLElement,target?:HTMLElement)=>void;
     resizeClassName?:string;//rezise元素拥有的样式，仅支持单节点，不支持复合节点
 }
 
@@ -21,12 +21,14 @@ class DragAbstractComponent<T extends IDragAbsoluteComponentProps,M={}> extends 
     public element:HTMLDivElement;
     private resize:boolean=false;
     private resizeClassName:string|undefined;
+    private pointElement:HTMLElement;
     constructor(props:T){
         super(props);
         this.resizeClassName=props.resizeClassName;
     }
     private dragStartListener=(e:any)=>{
         const target =e.target||window.event.srcElement;
+        this.pointElement=target;
         this._beforePoint={
             x:e.clientX,
             y:e.clientY
@@ -63,7 +65,7 @@ class DragAbstractComponent<T extends IDragAbsoluteComponentProps,M={}> extends 
                 x:e.clientX,
                 y:e.clientY
             };
-            this.props.onResize&&this.props.onResize(delPos,this.element,e);
+            this.props.onResize&&this.props.onResize(delPos,this.element,this.pointElement);
         }
     };
     private dragEndListener=(e:any)=>{
@@ -87,7 +89,7 @@ class DragAbstractComponent<T extends IDragAbsoluteComponentProps,M={}> extends 
                 x:e.clientX,
                 y:e.clientY
             };
-            this.props.onResize&&this.props.onResize(delPos,this.element,e);
+            this.props.onResize&&this.props.onResize(delPos,this.element,this.pointElement);
         }
         this.drag=false;
         this.resize=false;
