@@ -26,12 +26,31 @@ class DragAbstractComponent<T extends IDragAbsoluteComponentProps,M={}> extends 
         super(props);
         this.resizeClassName=props.resizeClassName;
     }
+    private getClientPos=(e:any)=>{
+        if(e.touches&&e.touches.length>0){
+            return {
+                x:e.touches[0].clientX,
+                y:e.touches[0].clientY
+            }
+        }
+        if(e.changedTouches&&e.changedTouches.length>0){
+            return {
+                x:e.changedTouches[0].clientX,
+                y:e.changedTouches[0].clientY
+            }
+        }
+        return {
+            x:e.clientX,
+            y:e.clientY
+        }
+    };
     private dragStartListener=(e:any)=>{
         const target =e.target||window.event.srcElement;
         this.pointElement=target;
+        const clientPos=this.getClientPos(e);
         this._beforePoint={
-            x:e.clientX,
-            y:e.clientY
+            x:clientPos.x,
+            y:clientPos.y,
         };
         if(this.resizeClassName&&new RegExp(this.resizeClassName).test(target.className)){
             //resize
@@ -45,50 +64,40 @@ class DragAbstractComponent<T extends IDragAbsoluteComponentProps,M={}> extends 
         }
     };
     private dragMoveListener=(e:any)=>{
+        const clientPos=this.getClientPos(e);
         if(this.drag){
             const delPos={
-                x:e.clientX-this._beforePoint.x,
-                y:e.clientY-this._beforePoint.y,
+                x:clientPos.x-this._beforePoint.x,
+                y:clientPos.y-this._beforePoint.y,
             };
-            this._beforePoint={
-                x:e.clientX,
-                y:e.clientY
-            };
+            this._beforePoint=clientPos;
             this.props.onDragMove&&this.props.onDragMove(delPos,this.element);
         }
         if(this.resize){
             const delPos={
-                x:e.clientX-this._beforePoint.x,
-                y:e.clientY-this._beforePoint.y,
+                x:clientPos.x-this._beforePoint.x,
+                y:clientPos.y-this._beforePoint.y,
             };
-            this._beforePoint={
-                x:e.clientX,
-                y:e.clientY
-            };
+            this._beforePoint=clientPos;
             this.props.onResize&&this.props.onResize(delPos,this.element,this.pointElement);
         }
     };
     private dragEndListener=(e:any)=>{
+        const clientPos=this.getClientPos(e);
         if(this.drag){
             const delPos={
-                x:e.clientX-this._beforePoint.x,
-                y:e.clientY-this._beforePoint.y,
+                x:clientPos.x-this._beforePoint.x,
+                y:clientPos.y-this._beforePoint.y,
             };
-            this._beforePoint={
-                x:e.clientX,
-                y:e.clientY
-            };
+            this._beforePoint=clientPos;
             this.props.onDragEnd&&this.props.onDragEnd(delPos,this.element);
         }
         if(this.resize){
             const delPos={
-                x:e.clientX-this._beforePoint.x,
-                y:e.clientY-this._beforePoint.y,
+                x:clientPos.x-this._beforePoint.x,
+                y:clientPos.y-this._beforePoint.y,
             };
-            this._beforePoint={
-                x:e.clientX,
-                y:e.clientY
-            };
+            this._beforePoint=clientPos;
             this.props.onResize&&this.props.onResize(delPos,this.element,this.pointElement);
         }
         this.drag=false;
