@@ -94,36 +94,28 @@ class DragAbstractComponent<T extends IDragAbsoluteComponentProps,M={}> extends 
         this.drag=false;
         this.resize=false;
     };
-    private dragCancelListener=()=>{
-        this.drag=false;
-        this.resize=false;
-    };
     
     componentDidMount(){
         if("ontouchstart" in document){
             this.element.addEventListener("touchstart",this.dragStartListener);
-            this.element.addEventListener("touchmove",this.dragMoveListener);
-            this.element.addEventListener("touchend",this.dragEndListener);
-            this.element.addEventListener("touchcancel",this.dragCancelListener);
-        }else{
-            this.element.addEventListener("mousedown",this.dragStartListener);
-            window.addEventListener("mousemove",this.dragMoveListener);
-            window.addEventListener("mouseup",this.dragEndListener);
-            // this.element.addEventListener("mouseout",this.dragCancelListener);
+            window.addEventListener("touchmove",this.dragMoveListener);
+            window.addEventListener("touchend",this.dragEndListener);
+            window.addEventListener("touchcancel",this.dragEndListener);
         }
+        this.element.addEventListener("mousedown",this.dragStartListener);
+        window.addEventListener("mousemove",this.dragMoveListener);
+        window.addEventListener("mouseup",this.dragEndListener);
     }
     componentWillUnmount(){
         if("ontouchstart" in document){
             this.element.removeEventListener("touchstart",this.dragStartListener);
-            this.element.removeEventListener("touchmove",this.dragMoveListener);
-            this.element.removeEventListener("touchend",this.dragEndListener);
-            this.element.removeEventListener("touchcancel",this.dragEndListener);
-        }else{
-            this.element.removeEventListener("mousedown",this.dragStartListener);
-            window.removeEventListener("mousemove",this.dragMoveListener);
-            window.removeEventListener("mouseup",this.dragEndListener);
-            // this.element.removeEventListener("mouseout",this.dragCancelListener);
+            window.removeEventListener("touchmove",this.dragMoveListener);
+            window.removeEventListener("touchend",this.dragEndListener);
+            window.removeEventListener("touchcancel",this.dragEndListener);
         }
+        this.element.removeEventListener("mousedown",this.dragStartListener);
+        window.removeEventListener("mousemove",this.dragMoveListener);
+        window.removeEventListener("mouseup",this.dragEndListener);
     }
 }
 
